@@ -83,7 +83,8 @@ function handleCommand(cmd) {
       return `Available commands:
 - help ............ show this list
 - about ........... about me
-- projects ........ placeholder
+- projects ........ list of projects and links
+- resume .......... view my resume
 - contact ......... email + github + phone + linkedin
 - sysinfo ......... system diagnostics
 - uptime .......... how long running
@@ -93,7 +94,7 @@ function handleCommand(cmd) {
     case 'about':
       return "I'm a freshman computer engineering student from UW - Madison.\nI build cool things with code, circuits, and caffeine.";
     case 'projects':
-      return "Soon this will list my actual projects with links. Stay tuned!";
+      return `AimTracer\nA real-time FPS aim-tracking assistant using Python and OpenCV\nhttps://github.com/pkrovi17/AimTracer\n\nFacial Recognition System\nA face authentication and detection system using Haar Cascades and LBPH\nhttps://github.com/pkrovi17/Facial-Recognition`;
     case 'contact':
       return`Email: pkrovi1@gmail.com\nGithub: github.com/pkrovi17\nPhone: +1 (916) 693 - 8802\nLinkedIn: https://www.linkedin.com/in/pranav-krovi/`;
     case 'uptime':
@@ -107,6 +108,9 @@ function handleCommand(cmd) {
       return '';
     case 'echo':
       return 'Usage: echo [your text]';
+      case 'resume':
+        window.open("https://drive.google.com/file/d/137aiK8vAJ7wUgc72znWRATBiwcuBiwEE/view?usp=sharing", "_blank");
+        return "Opening resume in new tab...";
     default:
       return `Command not found: ${cmd}`;
   }
