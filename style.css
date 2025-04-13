@@ -194,4 +194,50 @@ body {
   .input-wrapper.shake {
     animation: shake 0.2s ease;
   }
+
+  .dropdown {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 20;
+  }
+  
+  .dropdown-toggle {
+    font-family: monospace;
+    background: #333;
+    color: #FFBF00;
+    border: 1px solid #FFBF00;
+    border-radius: 5px;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    left: 0;
+    background-color: #1a1a1a;
+    border: 1px solid #FFBF00;
+    border-radius: 5px;
+    margin-top: 5px;
+    min-width: 120px;
+    font-family: monospace;
+    z-index: 21;
+  }
+  
+  .dropdown-menu a {
+    color: #FFBF00;
+    padding: 8px 12px;
+    display: block;
+    text-decoration: none;
+  }
+  
+  .dropdown-menu a:hover {
+    background-color: #333;
+  }
+  
+  .dropdown.open .dropdown-menu {
+    display: block;
+  }
+  
   

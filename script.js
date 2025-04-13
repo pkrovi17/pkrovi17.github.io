@@ -63,12 +63,12 @@ function getNeoFetch() {
   ██║     ██║  ██╗██║  ██║╚██████╔╝ ╚████╔╝ ██║ ██║   ██║  
   ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝   ╚═══╝  ╚═╝ ╚═╝   ╚═╝  
 
-user       : you  
-browser    : ${getPlatformInfo()}
-uptime     : ${getUptime()}
-timezone   : ${Intl.DateTimeFormat().resolvedOptions().timeZone}
-ip addr    : ${getRandomIP()}
-for help   : type help`;
+<strong>user</strong>       : you  
+<strong>browser</strong>    : ${getPlatformInfo()}
+<strong>uptime</strong>     : ${getUptime()}
+<strong>timezone</strong>   : ${Intl.DateTimeFormat().resolvedOptions().timeZone}
+<strong>ip addr</strong>    : ${getRandomIP()}
+<strong>for help</strong>   : type <strong>help</strong>`;
 }
 
 function handleCommand(cmd) {
@@ -81,22 +81,22 @@ function handleCommand(cmd) {
   switch (lowerCmd) {
     case 'help':
       return `Available commands:
-- help ............ show this list
-- about ........... about me
-- projects ........ list of projects and links
-- resume .......... view my resume
-- contact ......... email + github + phone + linkedin
-- sysinfo ......... system diagnostics
-- uptime .......... how long running
-- neofetch ........ display ASCII banner
-- echo ............ repeat what you say
-- clear ........... clear the terminal`;
+- <strong>help</strong> ............ show this list
+- <strong>about</strong> ........... about me
+- <strong>projects</strong> ........ list of projects and links
+- <strong>resume</strong> .......... view my resume
+- <strong>contact</strong> ......... email + github + phone + linkedin
+- <strong>sysinfo</strong> ......... system diagnostics
+- <strong>uptime</strong> .......... how long running
+- <strong>neofetch</strong> ........ display ASCII banner
+- <strong>echo</strong> ............ repeat what you say
+- <strong>clear</strong> ........... clear the terminal`;
     case 'about':
       return "I'm a freshman computer engineering student from UW - Madison.\nI build cool things with code, circuits, and caffeine.";
     case 'projects':
-      return `AimTracer\nA real-time FPS aim-tracking assistant using Python and OpenCV\nhttps://github.com/pkrovi17/AimTracer\n\nFacial Recognition System\nA face authentication and detection system using Haar Cascades and LBPH\nhttps://github.com/pkrovi17/Facial-Recognition`;
+      return `<strong>AimTracer</strong>\nA real-time FPS aim-tracking assistant using Python and OpenCV\nhttps://github.com/pkrovi17/AimTracer\n\n<strong>Facial Recognition System</strong>\nA face authentication and detection system using Haar Cascades and LBPH\nhttps://github.com/pkrovi17/Facial-Recognition`;
     case 'contact':
-      return`Email: pkrovi1@gmail.com\nGithub: github.com/pkrovi17\nPhone: +1 (916) 693 - 8802\nLinkedIn: https://www.linkedin.com/in/pranav-krovi/`;
+      return`<strong>Email:</strong> pkrovi1@gmail.com\n<strong>Github:</strong> github.com/pkrovi17\n<strong>Phone:</strong> +1 (916) 693 - 8802\n<strong>LinkedIn:</strong> https://www.linkedin.com/in/pranav-krovi/`;
     case 'uptime':
       return `⏱ Uptime: ${getUptime()}`;
     case 'sysinfo':
@@ -235,3 +235,10 @@ window.addEventListener("resize", updateCursorPosition);
 
 setInterval(updateStatusBar, 1000);
 typeWriter(getNeoFetch(), () => output.innerHTML += '\n', 10);
+
+const dropdown = document.querySelector(".dropdown");
+const toggle = document.querySelector(".dropdown-toggle");
+
+toggle.addEventListener("click", () => {
+  dropdown.classList.toggle("open");
+});
