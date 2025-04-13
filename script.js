@@ -67,7 +67,8 @@ user       : you
 browser    : ${getPlatformInfo()}
 uptime     : ${getUptime()}
 timezone   : ${Intl.DateTimeFormat().resolvedOptions().timeZone}
-ip addr    : ${getRandomIP()}`;
+ip addr    : ${getRandomIP()}
+for help   : type help`;
 }
 
 function handleCommand(cmd) {
@@ -83,7 +84,7 @@ function handleCommand(cmd) {
 - help ............ show this list
 - about ........... about me
 - projects ........ placeholder
-- contact ......... email + github
+- contact ......... email + github + phone + linkedin
 - sysinfo ......... system diagnostics
 - uptime .......... how long running
 - neofetch ........ display ASCII banner
