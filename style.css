@@ -213,7 +213,10 @@ body {
   }
   
   .dropdown-menu {
-    display: none;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
     position: absolute;
     left: 0;
     background-color: #1a1a1a;
@@ -237,7 +240,9 @@ body {
   }
   
   .dropdown.open .dropdown-menu {
-    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
   
   
