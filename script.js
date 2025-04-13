@@ -193,7 +193,7 @@ function typeWriter(text, callback, speed = 40) {
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
       setTimeout(type, speed);
     }
-  
+    // typer
     type();
   }
   
