@@ -246,7 +246,7 @@ body {
     pointer-events: auto;
   }
   @media (maxWidth <= 768px) {
-    .status-bar {
+    #statusBar {
       display: none;
     }
   }
