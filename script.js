@@ -35,6 +35,14 @@ function getRandomIP() {
 }
 
 function updateStatusBar() {
+  // if width lower than 768pix, hide status bar
+  const width = window.innerWidth;
+  if (width < 768) {
+    statusBar.style.display = 'none';
+    return;
+  } else {
+    statusBar.style.display = 'flex';
+  }
   const now = new Date();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   statusBar.innerText =
@@ -55,7 +63,7 @@ Timezone: ${timezone}`;
 
 function getNeoFetch() {
   return `
-  
+
   ██████╗ ██╗  ██╗██████╗ 
   ██╔══██╗██║ ██╔╝██╔══██╗
   ██████╔╝█████╔╝ ██████╔╝
