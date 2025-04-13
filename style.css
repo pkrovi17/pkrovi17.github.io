@@ -248,6 +248,7 @@ body {
   @media (maxWidth <= 768px) {
     #statusBar {
       display: none;
+      opacity: 0;
     }
   }
   
