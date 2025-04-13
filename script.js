@@ -187,8 +187,9 @@ function typeWriter(text, callback, speed = 40) {
         output.innerHTML += text[i];
         i++;
       }
-  
+      
       output.scrollTop = output.scrollHeight;
+      document.querySelector(".terminal").scrollTop = document.querySelector(".terminal").scrollHeight;
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
       setTimeout(type, speed);
     }
