@@ -245,7 +245,7 @@ body {
     transform: translateY(0);
     pointer-events: auto;
   }
-  @media (maxWidth = 768px) {
+  @media (maxWidth <= 768px) {
     .status-bar {
       display: none;
     }
