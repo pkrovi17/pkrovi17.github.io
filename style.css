@@ -1,17 +1,197 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
+    margin: 0;
+    background-color: #202529;
+    color: #FFBF00;
+    font-family: 'Courier Prime', monospace;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .terminal {
+    background-color: #1a1a1a;
+    font-family: 'Courier Prime', monospace;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(255, 191, 0, 0.2);
+    width: 80vmin;
+    height: 80vmin;
+    aspect-ratio: 1 / 1;
+    transition: all 0.3s ease;
+    scrollbar-width: none;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    min-height: 300px;
+    align-items: stretch;
+  }
+  
+  .terminal:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    aspect-ratio: auto;
+    border-radius: 0;
+    font-size: 1.1rem;
+    padding: 40px;
+    background-color: #202529;
+  }
+  
+  .status-bar {
+    position: sticky;
+    top: 0;
+    background-color: #1a1a1a;
     text-align: center;
-    padding-top: 50px;
+    padding: 0;
+    margin: 0;
+    line-height: 3.5;
+    font-size: 1rem;
+    color: #FFB300;
+    border-bottom: 1px solid #333;
+    border-radius: 8px;
+    z-index: 10;
   }
   
-  h1 {
-    color: #4CAF50;
+  .fullscreen-indicator {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #FFB300;
+    padding-bottom: 5px;
+    display: none;
   }
   
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+  .terminal:fullscreen #fullscreenIndicator {
+    display: block;
+  }
+  
+  pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    flex-grow: 1;
+  }
+  
+  .input-line {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .prompt {
+    margin-right: 5px;
+    color: #FFBF00;
+    font-family: 'Courier Prime', monospace;
+  }
+  
+  .input-wrapper {
+    position: relative;
+    flex: 1;
+  }
+  
+  input[type="text"] {
+    background-color: transparent;
+    border: none;
+    color: #FFBF00;
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.1rem;
+    font-weight: bold;
+    outline: none;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    caret-color: transparent !important;
+  }
+  
+  .block-cursor {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 1.2em;
+    background-color: #FFBF00;
+    box-shadow: 0 0 5px #FFBF00;
+    animation: cursor-blink 1s steps(1) infinite;
+    pointer-events: none;
+    z-index: 1;
+    transition: left 0.05s ease-in-out;
+  }
+  
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
+  .block-cursor.inactive {
+    display: none;
+  }
+  
+  .censor-block {
+    display: inline-block;
+    padding: 1px 5px;
+    background: repeating-linear-gradient(
+      -45deg,
+      #FFBF00,
+      #FFBF00 2px,
+      #1a1a1a 2px,
+      #1a1a1a 4px
+    );
+    color: #1a1a1a;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow: 0 0 1px #FFBF00;
+    border-radius: 3px;
+    user-select: none;
+    cursor: not-allowed;
+  }
+  
+  .warning-icon {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #FFBF00;
+    font-weight: bold;
+    font-size: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 3;
+  }
+  
+  .warning-tooltip {
+    position: absolute;
+    bottom: 125%;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #FFBF00;
+    padding: 5px 10px;
+    font-size: 0.85rem;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 3;
+  }
+  
+  .warning-icon:hover + .warning-tooltip {
+    opacity: 1;
+  }
+  
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-2px); }
+    40% { transform: translateX(2px); }
+    60% { transform: translateX(-1px); }
+    80% { transform: translateX(1px); }
+    100% { transform: translateX(0); }
+  }
+  
+  .input-wrapper.shake {
+    animation: shake 0.2s ease;
   }
   

@@ -2,14 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hello World</title>
-  <link rel="stylesheet" href="style.css"> <!-- Link to CSS -->
+  <title>Pranav Krovi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1 id="title">Hello, World!</h1>
-  <p>Welcome to my very first website.</p>
-  <button onclick="changeTitle()">Click Me</button>
+  <div class="terminal">
+    <div class="status-bar" id="statusBar"></div>
+    <div class="fullscreen-indicator" id="fullscreenIndicator"></div>
+    <pre id="output"></pre>
+    <div class="input-line">
+      <span class="prompt">&gt;</span>
+      <div class="input-wrapper">
+        <input type="text" id="commandInput" autofocus />
+        <div class="block-cursor" id="blockCursor"></div>
+        <div class="warning-icon" id="warnIcon" title="⚠"></div>
+        <div class="warning-tooltip" id="warnTooltip">⚠ No input during output</div>
+      </div>
+    </div>
+  </div>
 
-  <script src="script.js"></script> <!-- Link to JS -->
+  <button id="fullscreenToggle" style="position: fixed; bottom: 15px; right: 15px; padding: 8px 12px; font-family: monospace; background: #333; color: #FFBF00; border: 1px solid #FFBF00; border-radius: 5px; cursor: pointer;">⛶ Fullscreen</button>
+
+  <script src="script.js"></script>
+  <script>
+    const clickSound = new Audio("https://cdn.pixabay.com/audio/2022/03/15/audio_7b82c88ed2.mp3");
+    const fullscreenIndicator = document.getElementById("fullscreenIndicator");
+
+    document.getElementById("fullscreenToggle").addEventListener("click", () => {
+      const term = document.querySelector(".terminal");
+      if (!document.fullscreenElement) {
+        term.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+      clickSound.play();
+    });
+
+    document.querySelector(".terminal").addEventListener("click", () => {
+      document.getElementById("commandInput").focus();
+    });
+
+    document.addEventListener("fullscreenchange", () => {
+      fullscreenIndicator.textContent = document.fullscreenElement ? "[ FULLSCREEN MODE ]" : "";
+    });
+  </script>
 </body>
 </html>
