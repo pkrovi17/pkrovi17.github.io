@@ -1,4 +1,4 @@
-# 🖥️ Terminal Vibes — Developer Portfolio
+# 🖥️ Pranav Krovi — Developer Portfolio
 
 Welcome to my **terminal-inspired portfolio** — a web-based interactive shell where visitors can explore my background, projects, contact details, and more, all through a classic command-line interface.
 
