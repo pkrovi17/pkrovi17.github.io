@@ -89,20 +89,17 @@ function handleCommand(cmd) {
   switch (lowerCmd) {
     case 'help':
       return `Available commands:
-- <strong>help</strong> ............ show this list
 - <strong>about</strong> ........... about me
 - <strong>projects</strong> ........ list of projects and links
 - <strong>resume</strong> .......... view my resume
 - <strong>contact</strong> ......... email + github + phone + linkedin
 - <strong>sysinfo</strong> ......... system diagnostics
-- <strong>uptime</strong> .......... how long running
-- <strong>neofetch</strong> ........ display ASCII banner
 - <strong>echo</strong> ............ repeat what you say
 - <strong>clear</strong> ........... clear the terminal`;
     case 'about':
-      return "I'm a freshman computer engineering student from UW - Madison.\nI build cool things with code, circuits, and caffeine.";
+      return "Hi, I'm Pranav Krovi, a Computer Engineering student at the University of Wisconsin–Madison with a strong foundation in software development, data systems, and embedded technology. \nWith experience ranging from full-stack web development to real-time telemetry systems for off-road vehicles, I thrive at the intersection of hardware and software.";
     case 'projects':
-      return `<strong>AimTracer</strong>\nA real-time FPS aim-tracking assistant using Python and OpenCV\nhttps://github.com/pkrovi17/AimTracer\n\n<strong>Facial Recognition System</strong>\nA face authentication and detection system using Haar Cascades and LBPH\nhttps://github.com/pkrovi17/Facial-Recognition`;
+      return `<strong>SMB Revenue Service</strong>\nA Flask-based web application for analyzing financial data from small-to-medium businesses using AI-powered insights and forecasting.\nhttps://github.com/pkrovi17/SMB-RevenueService\n\n<strong>Automotive Suite</strong>\nA comprehensive fleet monitoring solution that transforms Kafka vehicle data into actionable real-time dashboards for tracking and managing vehicle fleets.\nhttps://github.com/pkrovi17/AutomotiveSuite\n\n<strong>AimTracer</strong>\nA real-time FPS aim-tracking assistant using Python and OpenCV. X-Box style aim tracer to help aiming on pc systems. Utilizes AI models to be applicable to most games.\nhttps://github.com/pkrovi17/AimTracer\n\n<strong>Facial Recognition System</strong>\nImplementing a haar - cascade model to detect faces and label them on a live display. This is a simple face recognition project built with Python and OpenCV. It uses the Haarcascade classifier for face detection and the Local Binary Patterns Histograms (LBPH) recognizer for identifying faces.\nhttps://github.com/pkrovi17/Facial-Recognition\n\n<strong>SSH Type</strong>\nA terminal-based typing test meant to be accessible over SSH. Built using ncurses, it delivers a retro, real-time typing experience with a blinking amber cursor, live WPM tracker, and animated text flow.\nhttps://github.com/pkrovi17/SSH-Type\n\n<strong>Document Merge</strong>\nA Python-based GUI application for merging multiple Word documents (.docx files) into a single document.\nhttps://github.com/pkrovi17/DocumentMerge`;
     case 'contact':
       return`<strong>Email:</strong> pkrovi1@gmail.com\n<strong>Github:</strong> github.com/pkrovi17\n<strong>Phone:</strong> +1 (916) 693 - 8802\n<strong>LinkedIn:</strong> https://www.linkedin.com/in/pranav-krovi/`;
     case 'uptime':
@@ -143,7 +140,7 @@ commandInput.addEventListener("keydown", function (e) {
       output.innerHTML += `\n> ${cmd}`;
       const response = handleCommand(cmd);
       if (response) {
-        typeWriter(`\n${response}`, () => {}, 30);
+        typeWriter(`\n${response}`, () => {}, 10);
         //output.innerHTML += `\n${response}`;
         //output.scrollTop = output.scrollHeight; // 🟢 scroll to bottom after output
       }
@@ -167,13 +164,21 @@ commandInput.addEventListener("keydown", function (e) {
   }
 });
 
-function typeWriter(text, callback, speed = 40) {
+function typeWriter(text, callback, speed = 10) {
     isOutputting = true;
     showWarningIcon(true);
     let i = 0;
+    let scrollCounter = 0;
+    const scrollInterval = 3; // Only scroll every 3 characters
+    let buffer = ''; // Buffer for better performance
   
     function type() {
       if (i >= text.length) {
+        // Flush any remaining buffer
+        if (buffer) {
+          output.innerHTML += buffer;
+          buffer = '';
+        }
         isOutputting = false;
         showWarningIcon(false);
         callback && callback();
@@ -183,22 +188,49 @@ function typeWriter(text, callback, speed = 40) {
       // Detect if next part is an HTML tag
       if (text[i] === "<") {
         const closeIdx = text.indexOf(">", i);
-        const tag = text.slice(i, closeIdx + 1);
-        const restStart = closeIdx + 1;
-        const closingTag = `</${tag.match(/<(\w+)/)[1]}>`;
-        const closeTagIdx = text.indexOf(closingTag, restStart);
-        const fullHTML = text.slice(i, closeTagIdx + closingTag.length);
-  
-        output.innerHTML += fullHTML;
-        i = closeTagIdx + closingTag.length;
+        if (closeIdx !== -1) {
+          const tag = text.slice(i, closeIdx + 1);
+          const restStart = closeIdx + 1;
+          const tagMatch = tag.match(/<(\w+)/);
+          
+          if (tagMatch) {
+            const closingTag = `</${tagMatch[1]}>`;
+            const closeTagIdx = text.indexOf(closingTag, restStart);
+            if (closeTagIdx !== -1) {
+              const fullHTML = text.slice(i, closeTagIdx + closingTag.length);
+              buffer += fullHTML;
+              i = closeTagIdx + closingTag.length;
+            } else {
+              buffer += text[i];
+              i++;
+            }
+          } else {
+            buffer += text[i];
+            i++;
+          }
+        } else {
+          buffer += text[i];
+          i++;
+        }
       } else {
-        output.innerHTML += text[i];
+        buffer += text[i];
         i++;
       }
       
-      output.scrollTop = output.scrollHeight;
-      document.querySelector(".terminal").scrollTop = document.querySelector(".terminal").scrollHeight;
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+      // Flush buffer every few characters for better performance
+      if (buffer.length >= 5 || i >= text.length) {
+        output.innerHTML += buffer;
+        buffer = '';
+      }
+      
+      // Only scroll every few characters to reduce DOM operations
+      scrollCounter++;
+      if (scrollCounter >= scrollInterval) {
+        output.scrollTop = output.scrollHeight;
+        document.querySelector(".terminal").scrollTop = document.querySelector(".terminal").scrollHeight;
+        scrollCounter = 0;
+      }
+      
       setTimeout(type, speed);
     }
     // typer
@@ -243,7 +275,7 @@ commandInput.addEventListener("click", updateCursorPosition);
 window.addEventListener("resize", updateCursorPosition);
 
 setInterval(updateStatusBar, 1000);
-typeWriter(getNeoFetch(), () => output.innerHTML += '\n', 10);
+typeWriter(getNeoFetch(), () => output.innerHTML += '\n', 5);
 
 const dropdown = document.querySelector(".dropdown");
 const toggle = document.querySelector(".dropdown-toggle");
