@@ -114,7 +114,7 @@ function handleCommand(cmd) {
     case 'echo':
       return 'Usage: echo [your text]';
     case 'resume':
-      window.open("https://drive.google.com/file/d/12GYg6OS4JkgMJGO2ValKvoB_4Yyc47fu/view?usp=sharing", "_blank");
+      window.open("https://drive.google.com/file/d/1pMIyeJ6tXIFpo9PhOEBm9MuoFl44C8xR/view?usp=sharing", "_blank");
       return "Opening resume in new tab...";
     default:
       return `Command not found: ${cmd}`;
