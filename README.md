@@ -33,6 +33,7 @@ Built with a retro aesthetic and modern interactivity, this website simulates a 
 | `clear`      | Clears the terminal output                      |
 | `echo [msg]` | Repeats whatever message you type               |
 | `resume`     | Opens resume in a new tab                       |
+| `dither`     | Launches the Dithershop app                     |
 
 ---
 

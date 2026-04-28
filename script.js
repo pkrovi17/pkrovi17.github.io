@@ -92,6 +92,7 @@ function handleCommand(cmd) {
 - <strong>about</strong> ........... about me
 - <strong>projects</strong> ........ list of projects and links
 - <strong>resume</strong> .......... view my resume
+- <strong>dither</strong> .......... launch Dithershop
 - <strong>contact</strong> ......... email + github + phone + linkedin
 - <strong>sysinfo</strong> ......... system diagnostics
 - <strong>echo</strong> ............ repeat what you say
@@ -116,6 +117,9 @@ function handleCommand(cmd) {
     case 'resume':
       window.open("https://drive.google.com/file/d/1pMIyeJ6tXIFpo9PhOEBm9MuoFl44C8xR/view?usp=sharing", "_blank");
       return "Opening resume in new tab...";
+    case 'dither':
+      window.location.href = "/dithering";
+      return "Launching Dithershop...";
     default:
       return `Command not found: ${cmd}`;
   }
