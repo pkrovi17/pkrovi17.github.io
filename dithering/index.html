@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" class="theme-default theme-amber-crt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Dithershop - retro image, video, ASCII, dithering, and CRT effects editor." />
+
+  <title>Dithershop</title>
+
+  <link rel="stylesheet" href="./index-DXtjAZsq.css" />
+  <link rel="stylesheet" href="./dithershop-pro.css" />
+</head>
+
+<body class="bg-[#0a0a0a]">
+  <div id="ds-topbar">
+    <div class="ds-brand">
+      <span class="ds-logo">▧</span>
+      <span>Dithershop</span>
+      <small>CRT EDITION</small>
+    </div>
+
+    <div class="ds-status">
+      <span id="ds-layer-count">1 layer</span>
+      <span>GPU READY</span>
+    </div>
+  </div>
+
+  <div id="root">
+    <div class="ds-boot">
+      DITHERSHOP BOOTING...
+      <br />
+      If this stays visible, the main JavaScript bundle is not loading.
+    </div>
+  </div>
+
+  <aside id="ds-layer-panel">
+    <header>
+      <div>
+        <strong>Layers</strong>
+        <small>non-destructive stack</small>
+      </div>
+      <button id="ds-add-layer" type="button">+</button>
+    </header>
+
+    <div class="ds-layer-actions">
+      <button id="ds-send-layer" type="button">Send Active To Editor</button>
+      <button id="ds-export-flat" type="button">Export Flattened PNG</button>
+    </div>
+
+    <div id="ds-layer-list"></div>
+
+    <section class="ds-layer-controls">
+      <label>
+        <span>Opacity</span>
+        <input id="ds-opacity" type="range" min="0" max="100" value="100" />
+      </label>
+
+      <label>
+        <span>Blend</span>
+        <select id="ds-blend">
+          <option value="source-over">Normal</option>
+          <option value="multiply">Multiply</option>
+          <option value="screen">Screen</option>
+          <option value="overlay">Overlay</option>
+          <option value="darken">Darken</option>
+          <option value="lighten">Lighten</option>
+          <option value="difference">Difference</option>
+        </select>
+      </label>
+
+      <p>
+        Import layers here, reorder them, adjust opacity/blend, then flatten export.
+        Use “Send Active To Editor” to process one layer through the main Dithershop engine.
+      </p>
+    </section>
+  </aside>
+
+  <section id="ds-console">
+    <header>
+      <strong>Process Monitor</strong>
+      <div class="ds-process-actions">
+        <button id="ds-refresh-preview" type="button" title="Refresh current image">Update</button>
+        <span id="ds-process-light">IDLE</span>
+      </div>
+    </header>
+    <div id="ds-console-output"></div>
+  </section>
+
+  <input id="ds-layer-input" type="file" accept="image/*" multiple hidden />
+
+  <script type="module" src="./index-D5s-AdpN.js"></script>
+  <script src="./dithershop-pro.js"></script>
+</body>
+</html>
