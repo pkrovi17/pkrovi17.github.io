@@ -146,7 +146,7 @@ float stripe(vec2 p, float angle, float density, float width) {
 }
 
 void main() {
-  vec2 uv = clamp(texCoord, vec2(0.0), vec2(1.0));
+  vec2 uv = clamp(vec2(texCoord.x, 1.0 - texCoord.y), vec2(0.0), vec2(1.0));
   vec2 px = 1.0 / max(resolution, vec2(1.0));
   vec4 src = texture(inputTexture, uv);
   vec3 color = src.rgb;
@@ -470,6 +470,7 @@ void main() {
 
   // Sample the source image - map cell position directly to source UV
   vec2 sourceUV = (cellPos + 0.5) * invNumCells;
+  sourceUV.y = 1.0 - sourceUV.y;
   vec2 clampedSourceUV = clamp(sourceUV, vec2(0.0), vec2(1.0));
 
   vec4 sourceColor = texture(sourceTexture, clampedSourceUV);
@@ -526,6 +527,7 @@ void main() {
   // The match result is stored as normalized float (index / charsetLength)
   // We read from a 2D texture where each pixel represents one grid cell
   vec2 matchUV = (cellPos + 0.5) / vec2(gridCols, numCells.y);
+  matchUV.y = 1.0 - matchUV.y;
   float encodedIndex = texture(matchResultTexture, matchUV).r;
   uint charIndex = uint(encodedIndex * 255.0 + 0.5);  // Decode from normalized value
 
