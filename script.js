@@ -118,7 +118,7 @@ function handleCommand(cmd) {
       window.open("https://drive.google.com/file/d/1pMIyeJ6tXIFpo9PhOEBm9MuoFl44C8xR/view?usp=sharing", "_blank");
       return "Opening resume in new tab...";
     case 'dither':
-      window.location.href = "/dithering";
+      window.location.href = "/dithering/";
       return "Launching Dithershop...";
     default:
       return `Command not found: ${cmd}`;
