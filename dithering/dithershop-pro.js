@@ -68,6 +68,8 @@
   }
 
   function boot() {
+    redirectRemovedPages();
+
     els.input = $("#ds-layer-input");
     els.add = $("#ds-add-layer");
     els.list = $("#ds-layer-list");
@@ -473,7 +475,7 @@
   }
 
   function sendLayerFileToMainEditor(layer) {
-    const originalUpload = document.querySelector("#file-upload");
+    const originalUpload = findMainUploadInput();
 
     if (!originalUpload) {
       alert("Main Dithershop editor upload control is not ready yet.");
@@ -488,6 +490,21 @@
     originalUpload.dispatchEvent(new Event("change", { bubbles: true }));
 
     logProcess(`ENGINE RECEIVED: ${layer.name}`);
+  }
+
+  function findMainUploadInput() {
+    return document.querySelector("#file-upload") ||
+      Array.from(document.querySelectorAll("#root input[type='file']")).find(input => {
+        const accept = input.getAttribute("accept") || "";
+        return accept.includes("image") || accept.includes("video") || accept.includes("*");
+      }) ||
+      document.querySelector("#root input[type='file']");
+  }
+
+  function redirectRemovedPages() {
+    if (/\/(?:about|changelog)\/?$/.test(window.location.pathname)) {
+      history.replaceState(null, "", "/dithering/");
+    }
   }
 
   function exportFlattenedPNG() {
