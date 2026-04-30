@@ -426,9 +426,16 @@ img {
   color: var(--term-text-bright);
 }
 
+#ds-console.minimized {
+  width: 280px;
+  height: 30px;
+  max-width: calc(100vw - 28px);
+}
+
 #ds-console header {
   height: 30px;
   padding: 0 9px;
+  flex: 0 0 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -437,6 +444,10 @@ img {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 11px;
+}
+
+#ds-console.minimized header {
+  border-bottom: 0;
 }
 
 #ds-process-light {
@@ -454,6 +465,24 @@ img {
   gap: 6px;
 }
 
+#ds-toggle-console {
+  color: var(--term-text-bright) !important;
+  background: rgba(255, 196, 0, 0.1);
+  border: 1px solid var(--term-border);
+  width: 22px;
+  height: 20px;
+  padding: 0;
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#ds-toggle-console:hover {
+  color: #050400 !important;
+  background: var(--term-accent);
+  text-shadow: none;
+}
+
 #ds-refresh-preview {
   color: var(--term-text-bright) !important;
   background: rgba(255, 196, 0, 0.1);
@@ -463,6 +492,11 @@ img {
   line-height: 1.2;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+#ds-console.minimized #ds-refresh-preview,
+#ds-console.minimized #ds-console-output {
+  display: none;
 }
 
 #ds-refresh-preview:hover {

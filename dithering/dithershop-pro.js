@@ -79,6 +79,8 @@
     els.send = $("#ds-send-layer");
     els.exportFlat = $("#ds-export-flat");
     els.refreshPreview = $("#ds-refresh-preview");
+    els.console = $("#ds-console");
+    els.toggleConsole = $("#ds-toggle-console");
 
     bind();
     bindEffectMonitor();
@@ -126,6 +128,7 @@
     els.send.addEventListener("click", sendActiveLayerToMainEditor);
     els.exportFlat.addEventListener("click", exportFlattenedPNG);
     els.refreshPreview.addEventListener("click", refreshPreview);
+    els.toggleConsole.addEventListener("click", toggleConsole);
     window.addEventListener("dithershop:process-busy", event => {
       pulseProcess(event.detail?.label || "RUNNING", event.detail?.duration || 500);
     });
@@ -136,6 +139,14 @@
       }
       setProcessBusy(false, "IDLE");
     });
+  }
+
+  function toggleConsole() {
+    const minimized = els.console.classList.toggle("minimized");
+    els.toggleConsole.textContent = minimized ? "▣" : "▢";
+    els.toggleConsole.title = minimized ? "Expand process monitor" : "Minimize process monitor";
+    els.toggleConsole.setAttribute("aria-label", els.toggleConsole.title);
+    els.toggleConsole.setAttribute("aria-expanded", minimized ? "false" : "true");
   }
 
   function refreshPreview() {
