@@ -77,6 +77,7 @@
     els.opacity = $("#ds-opacity");
     els.blend = $("#ds-blend");
     els.send = $("#ds-send-layer");
+    els.sendFlat = $("#ds-send-flat");
     els.exportFlat = $("#ds-export-flat");
     els.refreshPreview = $("#ds-refresh-preview");
     els.console = $("#ds-console");
@@ -126,6 +127,7 @@
     });
 
     els.send.addEventListener("click", sendActiveLayerToMainEditor);
+    els.sendFlat.addEventListener("click", sendFlattenedToMainEditor);
     els.exportFlat.addEventListener("click", exportFlattenedPNG);
     els.refreshPreview.addEventListener("click", refreshPreview);
     els.toggleConsole.addEventListener("click", toggleConsole);
@@ -486,6 +488,10 @@
   }
 
   function sendLayerFileToMainEditor(layer) {
+    sendFileToMainEditor(layer.file, layer.name);
+  }
+
+  function sendFileToMainEditor(file, name) {
     const originalUpload = findMainUploadInput();
 
     if (!originalUpload) {
@@ -495,12 +501,12 @@
     }
 
     const transfer = new DataTransfer();
-    transfer.items.add(layer.file);
+    transfer.items.add(file);
 
     originalUpload.files = transfer.files;
     originalUpload.dispatchEvent(new Event("change", { bubbles: true }));
 
-    logProcess(`ENGINE RECEIVED: ${layer.name}`);
+    logProcess(`ENGINE RECEIVED: ${name || file.name}`);
   }
 
   function findMainUploadInput() {
@@ -520,41 +526,8 @@
 
   function exportFlattenedPNG() {
     withProcess("FLATTENING LAYER STACK", async () => {
-      const imageLayers = state.layers.filter(layer => layer.image && layer.visible);
-
-      if (!imageLayers.length) {
-        alert("Import at least one visible image layer first.");
-        logProcess("EXPORT ABORTED: NO VISIBLE IMAGE LAYERS");
-        return;
-      }
-
-      const bounds = imageLayers.reduce(
-        (acc, layer) => ({
-          width: Math.max(acc.width, layer.width),
-          height: Math.max(acc.height, layer.height)
-        }),
-        { width: 1, height: 1 }
-      );
-
-      const canvas = document.createElement("canvas");
-      canvas.width = bounds.width;
-      canvas.height = bounds.height;
-
-      const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#050400";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      [...state.layers].reverse().forEach(layer => {
-        if (!layer.image || !layer.visible) return;
-
-        const fit = contain(layer.width, layer.height, canvas.width, canvas.height);
-        ctx.globalAlpha = layer.opacity;
-        ctx.globalCompositeOperation = layer.blend;
-        ctx.drawImage(layer.image, fit.x, fit.y, fit.w, fit.h);
-      });
-
-      ctx.globalAlpha = 1;
-      ctx.globalCompositeOperation = "source-over";
+      const canvas = createFlattenedCanvas();
+      if (!canvas) return;
 
       const url = canvas.toDataURL("image/png");
       const link = document.createElement("a");
@@ -564,6 +537,71 @@
       link.click();
 
       logProcess(`EXPORTED PNG: ${canvas.width}x${canvas.height}`);
+    });
+  }
+
+  function sendFlattenedToMainEditor() {
+    withProcess("SENDING FLATTENED STACK TO DITHERSHOP ENGINE", async () => {
+      const canvas = createFlattenedCanvas();
+      if (!canvas) return;
+
+      const blob = await canvasToBlob(canvas);
+      const file = new File([blob], "dithershop-flattened.png", { type: "image/png" });
+
+      sendFileToMainEditor(file, "Flattened Layer Stack");
+      logProcess(`FLATTENED ENGINE INPUT: ${canvas.width}x${canvas.height}`);
+    });
+  }
+
+  function createFlattenedCanvas() {
+    const imageLayers = state.layers.filter(layer => layer.image && layer.visible);
+
+    if (!imageLayers.length) {
+      alert("Import at least one visible image layer first.");
+      logProcess("FLATTEN ABORTED: NO VISIBLE IMAGE LAYERS");
+      return null;
+    }
+
+    const bounds = imageLayers.reduce(
+      (acc, layer) => ({
+        width: Math.max(acc.width, layer.width),
+        height: Math.max(acc.height, layer.height)
+      }),
+      { width: 1, height: 1 }
+    );
+
+    const canvas = document.createElement("canvas");
+    canvas.width = bounds.width;
+    canvas.height = bounds.height;
+
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#050400";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    [...state.layers].reverse().forEach(layer => {
+      if (!layer.image || !layer.visible) return;
+
+      const fit = contain(layer.width, layer.height, canvas.width, canvas.height);
+      ctx.globalAlpha = layer.opacity;
+      ctx.globalCompositeOperation = layer.blend;
+      ctx.drawImage(layer.image, fit.x, fit.y, fit.w, fit.h);
+    });
+
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "source-over";
+
+    return canvas;
+  }
+
+  function canvasToBlob(canvas) {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(blob => {
+        if (blob && blob.size > 0) {
+          resolve(blob);
+        } else {
+          reject(new Error("Could not create flattened PNG."));
+        }
+      }, "image/png");
     });
   }
 
