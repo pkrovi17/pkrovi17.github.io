@@ -115,7 +115,7 @@ function handleCommand(cmd) {
     case 'echo':
       return 'Usage: echo [your text]';
     case 'resume':
-      window.open("https://drive.google.com/file/d/1pMIyeJ6tXIFpo9PhOEBm9MuoFl44C8xR/view?usp=sharing", "_blank");
+      window.open("https://drive.google.com/file/d/1K9Ebqrev4B4RC-X1HthmkwJVY--8kOQo/view?usp=sharing", "_blank");
       return "Opening resume in new tab...";
     case 'dither':
       window.location.href = "/dithering/";
@@ -279,7 +279,12 @@ commandInput.addEventListener("click", updateCursorPosition);
 window.addEventListener("resize", updateCursorPosition);
 
 setInterval(updateStatusBar, 1000);
-typeWriter(getNeoFetch(), () => output.innerHTML += '\n', 5);
+typeWriter(getNeoFetch(), () => {
+  output.innerHTML += '\n\n> help';
+  commandHistory.push('help');
+  historyIndex = commandHistory.length;
+  typeWriter(`\n${handleCommand('help')}`, () => {}, 10);
+}, 5);
 
 const dropdown = document.querySelector(".dropdown");
 const toggle = document.querySelector(".dropdown-toggle");
