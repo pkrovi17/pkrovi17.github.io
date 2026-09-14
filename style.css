@@ -206,6 +206,7 @@ body {
   }
   
   .dropdown-toggle,
+  .corner-button,
   #fullscreenToggle {
     display: inline-flex;
     align-items: center;
@@ -219,6 +220,25 @@ body {
     cursor: pointer;
   }
 
+  .corner-button {
+    position: fixed;
+    z-index: 20;
+    font-size: 0.85rem;
+    text-decoration: none;
+  }
+
+  #dithershopLink {
+    bottom: 15px;
+    left: 15px;
+    padding: 8px 12px;
+  }
+
+  #keywordSearch {
+    top: 15px;
+    right: 15px;
+    cursor: default;
+  }
+
   #fullscreenToggle {
     position: fixed;
     bottom: 15px;
@@ -227,6 +247,7 @@ body {
   }
 
   .dropdown-label,
+  .corner-label,
   .fullscreen-label {
     font-size: 0.85rem;
     white-space: nowrap;
@@ -234,10 +255,31 @@ body {
 
   .dropdown-toggle:hover,
   .dropdown-toggle:focus-visible,
+  .corner-button:hover,
+  .corner-button:focus-visible,
   #fullscreenToggle:hover,
   #fullscreenToggle:focus-visible {
     background-color: #1a1a1a;
     box-shadow: 0 0 8px rgba(255, 191, 0, 0.3);
+  }
+
+  @media (max-width: 480px) {
+    .dropdown-toggle,
+    .corner-button,
+    #fullscreenToggle {
+      gap: 4px;
+      padding: 6px;
+    }
+
+    #dithershopLink {
+      padding: 6px;
+    }
+
+    .dropdown-label,
+    .corner-label,
+    .fullscreen-label {
+      font-size: 0.65rem;
+    }
   }
   
   .dropdown-menu {
