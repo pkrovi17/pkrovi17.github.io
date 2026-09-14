@@ -26,8 +26,11 @@
     </div>
   </div>
   <div class="dropdown">
-    <button class="dropdown-toggle">☰</button>
-    <div class="dropdown-menu">
+    <button class="dropdown-toggle" type="button" aria-expanded="false" aria-controls="quick-links">
+      <span aria-hidden="true">☰</span>
+      <span class="dropdown-label"><span aria-hidden="true">← </span>[quick links]</span>
+    </button>
+    <div class="dropdown-menu" id="quick-links">
       <a href="https://github.com/pkrovi17" target="_blank">GitHub</a>
       <a href="https://www.linkedin.com/in/pranav-krovi/" target="_blank">LinkedIn</a>
       <a href="https://drive.google.com/file/d/1K9Ebqrev4B4RC-X1HthmkwJVY--8kOQo/view?usp=sharing" target="_blank">Resume</a>
@@ -42,7 +45,10 @@
   </div>
   
   
-  <button id="fullscreenToggle" style="position: fixed; bottom: 15px; right: 15px; padding: 8px 12px; font-family: monospace; background: #333; color: #FFBF00; border: 1px solid #FFBF00; border-radius: 5px; cursor: pointer;">⛶</button>
+  <button id="fullscreenToggle" type="button">
+    <span class="fullscreen-label">[fullscreen]<span aria-hidden="true"> →</span></span>
+    <span aria-hidden="true">⛶</span>
+  </button>
 
   <script src="script.js"></script>
   <script>

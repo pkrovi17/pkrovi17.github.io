@@ -290,5 +290,6 @@ const dropdown = document.querySelector(".dropdown");
 const toggle = document.querySelector(".dropdown-toggle");
 
 toggle.addEventListener("click", () => {
-  dropdown.classList.toggle("open");
+  const isOpen = dropdown.classList.toggle("open");
+  toggle.setAttribute("aria-expanded", String(isOpen));
 });
