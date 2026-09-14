@@ -2,7 +2,9 @@ const output = document.getElementById("output");
 const commandInput = document.getElementById("commandInput");
 const statusBar = document.getElementById("statusBar");
 const cursor = document.getElementById("blockCursor");
-const beepSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_64e2c7fbfd.mp3?filename=beep-5-96243.mp3");
+const beepSound = new Audio(
+    "https://cdn.pixabay.com/download/audio/2022/03/15/audio_64e2c7fbfd.mp3?filename=beep-5-96243.mp3",
+);
 
 let isOutputting = false;
 let startTime = Date.now();
@@ -10,49 +12,48 @@ let commandHistory = [];
 let historyIndex = -1;
 
 function formatTime(date) {
-  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 }
 
 function getUptime() {
-  const seconds = Math.floor((Date.now() - startTime) / 1000);
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins}m ${secs}s`;
+    const seconds = Math.floor((Date.now() - startTime) / 1000);
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}m ${secs}s`;
 }
 
 function getPlatformInfo() {
-  const ua = navigator.userAgent;
-  if (ua.includes("Chrome")) return "Google Chrome";
-  if (ua.includes("Firefox")) return "Mozilla Firefox";
-  if (ua.includes("Safari") && !ua.includes("Chrome")) return "Safari";
-  if (ua.includes("Edg")) return "Microsoft Edge";
-  if (ua.includes("OPR")) return "Opera";
-  return "Unknown Browser";
+    const ua = navigator.userAgent;
+    if (ua.includes("Chrome")) return "Google Chrome";
+    if (ua.includes("Firefox")) return "Mozilla Firefox";
+    if (ua.includes("Safari") && !ua.includes("Chrome")) return "Safari";
+    if (ua.includes("Edg")) return "Microsoft Edge";
+    if (ua.includes("OPR")) return "Opera";
+    return "Unknown Browser";
 }
 
 function getRandomIP() {
-  return '<span class="censor-block">BLOCKED</span>';
+    return '<span class="censor-block">BLOCKED</span>';
 }
 
 function updateStatusBar() {
-  // if width lower than 768pix, hide status bar
-  const width = window.innerWidth;
-  if (width < 768) {
-    statusBar.style.display = 'none';
-    return;
-  } else {
-    statusBar.style.display = 'flex';
-  }
-  const now = new Date();
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  statusBar.innerText =
-    `🕒 ${formatTime(now)} | ⏱ Uptime: ${getUptime()} | 🌍 TZ: ${timezone} | 💻 ${getPlatformInfo()}`;
+    // if width lower than 768pix, hide status bar
+    const width = window.innerWidth;
+    if (width < 768) {
+        statusBar.style.display = "none";
+        return;
+    } else {
+        statusBar.style.display = "flex";
+    }
+    const now = new Date();
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    statusBar.innerText = `🕒 ${formatTime(now)} | ⏱ Uptime: ${getUptime()} | 🌍 TZ: ${timezone} | 💻 ${getPlatformInfo()}`;
 }
 
 function getSystemInfo() {
-  const now = new Date();
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return `🖥️ System Info
+    const now = new Date();
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    return `🖥️ System Info
 ------------------------------
 Time: ${formatTime(now)}
 Uptime: ${getUptime()}
@@ -62,7 +63,7 @@ Timezone: ${timezone}`;
 }
 
 function getNeoFetch() {
-  return `
+    return `
 
   ██████╗ ██╗  ██╗██████╗ 
   ██╔══██╗██║ ██╔╝██╔══██╗
@@ -79,93 +80,136 @@ function getNeoFetch() {
 <strong>for help</strong>   : type <strong>help</strong>`;
 }
 
+function getProjectEntries() {
+    return `<strong>SMB Revenue Service</strong>\nA Flask-based web application for analyzing financial data from small-to-medium businesses using AI-powered insights and forecasting.\n<a href="https://github.com/pkrovi17/SMB-RevenueService" target="_blank" style="color: #FFBF00; text-decoration: underline;">https://github.com/pkrovi17/SMB-RevenueService</a>\n\n<strong>Automotive Suite</strong>\nA comprehensive fleet monitoring solution that transforms Kafka vehicle data into actionable real-time dashboards for tracking and managing vehicle fleets.\n<a href="https://github.com/pkrovi17/AutomotiveSuite" target="_blank" style="color: #FFBF00; text-decoration: underline;">https://github.com/pkrovi17/AutomotiveSuite</a>\n\n<strong>AimTracer</strong>\nA real-time FPS aim-tracking assistant using Python and OpenCV. X-Box style aim tracer to help aiming on pc systems. Utilizes AI models to be applicable to most games.\n<a href="https://github.com/pkrovi17/AimTracer" target="_blank" style="color: #FFBF00; text-decoration: underline;">https://github.com/pkrovi17/AimTracer</a>\n\n<strong>Dithershop</strong>\nA browser-based CRT and dithering editor for transforming images, videos, and webcam input into retro ASCII, halftone, and glitch-style visuals.\n<a href="/dithering/" style="color: #FFBF00; text-decoration: underline;">https://pkrovi.com/dithering/</a>\n\n<strong>Facial Recognition System</strong>\nImplementing a haar - cascade model to detect faces and label them on a live display. This is a simple face recognition project built with Python and OpenCV. It uses the Haarcascade classifier for face detection and the Local Binary Patterns Histograms (LBPH) recognizer for identifying faces.\n<a href="https://github.com/pkrovi17/Facial-Recognition" target="_blank" style="color: #FFBF00; text-decoration: underline;">https://github.com/pkrovi17/Facial-Recognition</a>\n\n<strong>SSH Type</strong>\nA terminal-based typing test meant to be accessible over SSH. Built using ncurses, it delivers a retro, real-time typing experience with a blinking amber cursor, live WPM tracker, and animated text flow.\n<a href="https://github.com/pkrovi17/SSH-Type" target="_blank" style="color: #FFBF00; text-decoration: underline;">https://github.com/pkrovi17/SSH-Type</a>\n\n<strong>Document Merge</strong>\nA Python-based GUI application for merging multiple Word documents (.docx files) into a single document.\n<a href="https://github.com/pkrovi17/DocumentMerge" target="_blank" style="color: #FFBF00; text-decoration: underline;">https://github.com/pkrovi17/DocumentMerge</a>`.split(
+        "\n\n",
+    );
+}
+
 function handleCommand(cmd) {
-  const lowerCmd = cmd.trim().toLowerCase();
+    const fileResponse = runFileCommand(cmd);
+    if (fileResponse !== null) return fileResponse;
+    const lowerCmd = cmd.trim().toLowerCase();
 
-  if (lowerCmd.startsWith('echo ')) {
-    return cmd.slice(5);
-  }
+    if (lowerCmd.startsWith("echo ")) {
+        return cmd.slice(5);
+    }
 
-  switch (lowerCmd) {
-    case 'help':
-      return `Available commands:
-- <strong>about</strong> ........... about me
-- <strong>projects</strong> ........ list of projects and links
-- <strong>resume</strong> .......... view my resume
-- <strong>dither</strong> .......... launch Dithershop
-- <strong>contact</strong> ......... email + github + phone + linkedin
-- <strong>sysinfo</strong> ......... system diagnostics
-- <strong>echo</strong> ............ repeat what you say
-- <strong>clear</strong> ........... clear the terminal`;
-    case 'about':
-      return "Hi, I'm Pranav Krovi, a Computer Engineering student at the University of Wisconsin–Madison with a strong foundation in software development, data systems, and embedded technology. \nWith experience ranging from full-stack web development to real-time telemetry systems for off-road vehicles, I thrive at the intersection of hardware and software.";
-    case 'projects':
-      return `<strong>SMB Revenue Service</strong>\nA Flask-based web application for analyzing financial data from small-to-medium businesses using AI-powered insights and forecasting.\n<a href="https://github.com/pkrovi17/SMB-RevenueService" target="_blank" style="color: #FFBF00; text-decoration: underline;">https://github.com/pkrovi17/SMB-RevenueService</a>\n\n<strong>Automotive Suite</strong>\nA comprehensive fleet monitoring solution that transforms Kafka vehicle data into actionable real-time dashboards for tracking and managing vehicle fleets.\n<a href="https://github.com/pkrovi17/AutomotiveSuite" target="_blank" style="color: #FFBF00; text-decoration: underline;">https://github.com/pkrovi17/AutomotiveSuite</a>\n\n<strong>AimTracer</strong>\nA real-time FPS aim-tracking assistant using Python and OpenCV. X-Box style aim tracer to help aiming on pc systems. Utilizes AI models to be applicable to most games.\n<a href="https://github.com/pkrovi17/AimTracer" target="_blank" style="color: #FFBF00; text-decoration: underline;">https://github.com/pkrovi17/AimTracer</a>\n\n<strong>Dithershop</strong>\nA browser-based CRT and dithering editor for transforming images, videos, and webcam input into retro ASCII, halftone, and glitch-style visuals.\n<a href="/dithering/" style="color: #FFBF00; text-decoration: underline;">https://pkrovi.com/dithering/</a>\n\n<strong>Facial Recognition System</strong>\nImplementing a haar - cascade model to detect faces and label them on a live display. This is a simple face recognition project built with Python and OpenCV. It uses the Haarcascade classifier for face detection and the Local Binary Patterns Histograms (LBPH) recognizer for identifying faces.\n<a href="https://github.com/pkrovi17/Facial-Recognition" target="_blank" style="color: #FFBF00; text-decoration: underline;">https://github.com/pkrovi17/Facial-Recognition</a>\n\n<strong>SSH Type</strong>\nA terminal-based typing test meant to be accessible over SSH. Built using ncurses, it delivers a retro, real-time typing experience with a blinking amber cursor, live WPM tracker, and animated text flow.\n<a href="https://github.com/pkrovi17/SSH-Type" target="_blank" style="color: #FFBF00; text-decoration: underline;">https://github.com/pkrovi17/SSH-Type</a>\n\n<strong>Document Merge</strong>\nA Python-based GUI application for merging multiple Word documents (.docx files) into a single document.\n<a href="https://github.com/pkrovi17/DocumentMerge" target="_blank" style="color: #FFBF00; text-decoration: underline;">https://github.com/pkrovi17/DocumentMerge</a>`;
-    case 'contact':
-      return`<strong>Email:</strong> pkrovi1@gmail.com\n<strong>Github:</strong> github.com/pkrovi17\n<strong>Phone:</strong> +1 (916) 693 - 8802\n<strong>LinkedIn:</strong> https://www.linkedin.com/in/pranav-krovi/`;
-    case 'uptime':
-      return `⏱ Uptime: ${getUptime()}`;
-    case 'sysinfo':
-      return getSystemInfo();
-    case 'neofetch':
-      return getNeoFetch();
-    case 'clear':
-      output.innerHTML = '';
-      return '';
-    case 'echo':
-      return 'Usage: echo [your text]';
-    case 'resume':
-      window.open("https://drive.google.com/file/d/1K9Ebqrev4B4RC-X1HthmkwJVY--8kOQo/view?usp=sharing", "_blank");
-      return "Opening resume in new tab...";
-    case 'dither':
-      window.location.href = "/dithering/";
-      return "Launching Dithershop...";
-    default:
-      return `Command not found: ${cmd}`;
-  }
+    switch (lowerCmd) {
+        case "help":
+            return `<strong>PKROVI(1) — User Manual</strong>
+
+<strong>NAME</strong>
+    pkrovi — Pranav Krovi's interactive portfolio
+
+<strong>SYNOPSIS</strong>
+    command [arguments]
+
+<strong>DESCRIPTION</strong>
+    Explore the portfolio from the terminal.
+    Enter a command below and press Enter.
+
+<strong>COMMANDS</strong>
+    <strong>about</strong>          display biography
+    <strong>projects</strong>       list projects and repositories
+    <strong>resume</strong>         open resume in a new tab
+    <strong>dither</strong>         launch Dithershop
+    <strong>contact</strong>        display contact information
+    <strong>sysinfo</strong>        display session diagnostics
+    <strong>echo</strong>           print supplied text
+    <strong>clear</strong>          clear terminal output
+    <strong>ls/cd/grep/...</strong> navigate and search portfolio files
+
+<strong>SEE ALSO</strong>
+    [quick links] — open portfolio links directly`;
+        case "about":
+            return "Hi, I'm an aspiring Aerospace & Defense engineer that thrives at the bleeding edge of hardware and software solutions. I come with a strong foundation in software development, data systems, and embedded technology, with experience ranging from full-stack web development to real-time telemetry systems for off-road vehicles.";
+        case "projects":
+            return `<strong>PROJECTS(1) — Portfolio Manual</strong>
+
+<strong>NAME</strong>
+    projects — selected software and engineering work
+
+<strong>SYNOPSIS</strong>
+    projects
+
+<strong>DESCRIPTION</strong>
+    Browse project summaries and follow their links for details.
+
+<strong>PROJECTS</strong>
+${getProjectEntries()
+    .map(project => {
+        const [title, description, link] = project.split("\n");
+        return `    ${title}\n        ${description}\n        ${link}`;
+    })
+    .join("\n\n")}
+
+<strong>SEE ALSO</strong>
+    /projects/ — browse individual project files in the terminal`;
+        case "contact":
+            return `<strong>Email:</strong> pkrovi1@gmail.com\n<strong>Github:</strong> github.com/pkrovi17\n<strong>Phone:</strong> +1 (916) 693 - 8802\n<strong>LinkedIn:</strong> https://www.linkedin.com/in/pranav-krovi/`;
+        case "uptime":
+            return `⏱ Uptime: ${getUptime()}`;
+        case "sysinfo":
+            return getSystemInfo();
+        case "neofetch":
+            return getNeoFetch();
+        case "clear":
+            output.innerHTML = "";
+            return "";
+        case "echo":
+            return "Usage: echo [your text]";
+        case "resume":
+            window.open("https://drive.google.com/file/d/1K9Ebqrev4B4RC-X1HthmkwJVY--8kOQo/view?usp=sharing", "_blank");
+            return "Opening resume in new tab...";
+        case "dither":
+            window.location.href = "/dithering/";
+            return "Launching Dithershop...";
+        default:
+            return `Command not found: ${cmd}`;
+    }
 }
 
 commandInput.addEventListener("keydown", function (e) {
-  if (isOutputting) {
-    e.preventDefault();
-    beepSound.currentTime = 0;
-    beepSound.play();
-    const wrapper = document.querySelector(".input-wrapper");
-    wrapper.classList.add("shake");
-    setTimeout(() => wrapper.classList.remove("shake"), 200);
-    return;
-  }
+    if (isOutputting) {
+        e.preventDefault();
+        beepSound.currentTime = 0;
+        beepSound.play();
+        const wrapper = document.querySelector(".input-wrapper");
+        wrapper.classList.add("shake");
+        setTimeout(() => wrapper.classList.remove("shake"), 200);
+        return;
+    }
 
-  if (e.key === "Enter") {
-    const cmd = commandInput.value;
-    if (cmd.trim() !== '') {
-      commandHistory.push(cmd);
-      historyIndex = commandHistory.length;
-      output.innerHTML += `\n> ${cmd}`;
-      const response = handleCommand(cmd);
-      if (response) {
-        typeWriter(`\n${response}`, () => {}, 10);
-        //output.innerHTML += `\n${response}`;
-        //output.scrollTop = output.scrollHeight; // 🟢 scroll to bottom after output
-      }
-      
+    if (e.key === "Enter") {
+        const cmd = commandInput.value;
+        if (cmd.trim() !== "") {
+            commandHistory.push(cmd);
+            historyIndex = commandHistory.length;
+            output.innerHTML += `\n${escapeTerminalText(document.querySelector(".prompt").textContent)} ${escapeTerminalText(cmd)}`;
+            const response = handleCommand(cmd);
+            if (response) {
+                typeWriter(`\n${response}`, () => {}, 10);
+                //output.innerHTML += `\n${response}`;
+                //output.scrollTop = output.scrollHeight; // 🟢 scroll to bottom after output
+            }
+        }
+        commandInput.value = "";
+        updateCursorPosition();
+        //output.scrollTop = output.scrollHeight;
+    } else if (e.key === "ArrowUp") {
+        if (historyIndex > 0) {
+            historyIndex--;
+            commandInput.value = commandHistory[historyIndex];
+        }
+    } else if (e.key === "ArrowDown") {
+        if (historyIndex < commandHistory.length - 1) {
+            historyIndex++;
+            commandInput.value = commandHistory[historyIndex];
+        } else {
+            commandInput.value = "";
+        }
     }
-    commandInput.value = '';
-    updateCursorPosition();
-    //output.scrollTop = output.scrollHeight;
-  } else if (e.key === "ArrowUp") {
-    if (historyIndex > 0) {
-      historyIndex--;
-      commandInput.value = commandHistory[historyIndex];
-    }
-  } else if (e.key === "ArrowDown") {
-    if (historyIndex < commandHistory.length - 1) {
-      historyIndex++;
-      commandInput.value = commandHistory[historyIndex];
-    } else {
-      commandInput.value = '';
-    }
-  }
 });
 
 function typeWriter(text, callback, speed = 10) {
@@ -174,122 +218,123 @@ function typeWriter(text, callback, speed = 10) {
     let i = 0;
     let scrollCounter = 0;
     const scrollInterval = 3; // Only scroll every 3 characters
-    let buffer = ''; // Buffer for better performance
-  
+    let buffer = ""; // Buffer for better performance
+
     function type() {
-      if (i >= text.length) {
-        // Flush any remaining buffer
-        if (buffer) {
-          output.innerHTML += buffer;
-          buffer = '';
-        }
-        isOutputting = false;
-        showWarningIcon(false);
-        callback && callback();
-        return;
-      }
-  
-      // Detect if next part is an HTML tag
-      if (text[i] === "<") {
-        const closeIdx = text.indexOf(">", i);
-        if (closeIdx !== -1) {
-          const tag = text.slice(i, closeIdx + 1);
-          const restStart = closeIdx + 1;
-          const tagMatch = tag.match(/<(\w+)/);
-          
-          if (tagMatch) {
-            const closingTag = `</${tagMatch[1]}>`;
-            const closeTagIdx = text.indexOf(closingTag, restStart);
-            if (closeTagIdx !== -1) {
-              const fullHTML = text.slice(i, closeTagIdx + closingTag.length);
-              buffer += fullHTML;
-              i = closeTagIdx + closingTag.length;
-            } else {
-              buffer += text[i];
-              i++;
+        if (i >= text.length) {
+            // Flush any remaining buffer
+            if (buffer) {
+                output.innerHTML += buffer;
+                buffer = "";
             }
-          } else {
+            isOutputting = false;
+            showWarningIcon(false);
+            callback && callback();
+            return;
+        }
+
+        // Detect if next part is an HTML tag
+        if (text[i] === "<") {
+            const closeIdx = text.indexOf(">", i);
+            if (closeIdx !== -1) {
+                const tag = text.slice(i, closeIdx + 1);
+                const restStart = closeIdx + 1;
+                const tagMatch = tag.match(/<(\w+)/);
+
+                if (tagMatch) {
+                    const closingTag = `</${tagMatch[1]}>`;
+                    const closeTagIdx = text.indexOf(closingTag, restStart);
+                    if (closeTagIdx !== -1) {
+                        const fullHTML = text.slice(i, closeTagIdx + closingTag.length);
+                        buffer += fullHTML;
+                        i = closeTagIdx + closingTag.length;
+                    } else {
+                        buffer += text[i];
+                        i++;
+                    }
+                } else {
+                    buffer += text[i];
+                    i++;
+                }
+            } else {
+                buffer += text[i];
+                i++;
+            }
+        } else {
             buffer += text[i];
             i++;
-          }
-        } else {
-          buffer += text[i];
-          i++;
         }
-      } else {
-        buffer += text[i];
-        i++;
-      }
-      
-      // Flush buffer every few characters for better performance
-      if (buffer.length >= 5 || i >= text.length) {
-        output.innerHTML += buffer;
-        buffer = '';
-      }
-      
-      // Only scroll every few characters to reduce DOM operations
-      scrollCounter++;
-      if (scrollCounter >= scrollInterval) {
-        output.scrollTop = output.scrollHeight;
-        document.querySelector(".terminal").scrollTop = document.querySelector(".terminal").scrollHeight;
-        scrollCounter = 0;
-      }
-      
-      setTimeout(type, speed);
+
+        // Flush buffer every few characters for better performance
+        if (buffer.length >= 5 || i >= text.length) {
+            output.innerHTML += buffer;
+            buffer = "";
+        }
+
+        // Only scroll every few characters to reduce DOM operations
+        scrollCounter++;
+        if (scrollCounter >= scrollInterval) {
+            output.scrollTop = output.scrollHeight;
+            document.querySelector(".terminal").scrollTop = document.querySelector(".terminal").scrollHeight;
+            scrollCounter = 0;
+        }
+
+        setTimeout(type, speed);
     }
     // typer
     type();
-  }
-  
-  
-  
+}
 
 function showWarningIcon(show) {
-  const icon = document.getElementById("warnIcon");
-  icon.style.opacity = show ? '1' : '0';
-  icon.style.pointerEvents = show ? 'auto' : 'none';
+    const icon = document.getElementById("warnIcon");
+    icon.style.opacity = show ? "1" : "0";
+    icon.style.pointerEvents = show ? "auto" : "none";
 }
 
 function getTextWidth(text, style) {
-  const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
-  const context = canvas.getContext("2d");
-  context.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-  return context.measureText(text).width;
+    const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+    const context = canvas.getContext("2d");
+    context.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+    return context.measureText(text).width;
 }
 
 function updateCursorPosition() {
-  const style = getComputedStyle(commandInput);
-  const width = getTextWidth(commandInput.value, style);
-  cursor.style.left = `${width + 5}px`;
+    const style = getComputedStyle(commandInput);
+    const width = getTextWidth(commandInput.value, style);
+    cursor.style.left = `${width + 5}px`;
 }
 
 function showCursor(active) {
-  cursor.classList.toggle('inactive', !active);
+    cursor.classList.toggle("inactive", !active);
 }
 
 commandInput.addEventListener("input", updateCursorPosition);
 commandInput.addEventListener("focus", () => {
-  showCursor(true);
-  updateCursorPosition();
+    showCursor(true);
+    updateCursorPosition();
 });
 commandInput.addEventListener("blur", () => {
-  showCursor(false);
+    showCursor(false);
 });
 commandInput.addEventListener("click", updateCursorPosition);
 window.addEventListener("resize", updateCursorPosition);
 
 setInterval(updateStatusBar, 1000);
-typeWriter(getNeoFetch(), () => {
-  output.innerHTML += '\n\n> help';
-  commandHistory.push('help');
-  historyIndex = commandHistory.length;
-  typeWriter(`\n${handleCommand('help')}`, () => {}, 10);
-}, 5);
+typeWriter(
+    getNeoFetch(),
+    () => {
+        output.innerHTML += "\n\n> help";
+        commandHistory.push("help");
+        historyIndex = commandHistory.length;
+        typeWriter(`\n${handleCommand("help")}`, () => {}, 10);
+    },
+    5,
+);
 
 const dropdown = document.querySelector(".dropdown");
 const toggle = document.querySelector(".dropdown-toggle");
 
 toggle.addEventListener("click", () => {
-  const isOpen = dropdown.classList.toggle("open");
-  toggle.setAttribute("aria-expanded", String(isOpen));
+    const isOpen = dropdown.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", String(isOpen));
 });
