@@ -8,7 +8,7 @@ function terminal() {
   const element = key => {
     if (!elements.has(key)) elements.set(key, {
       textContent: '>', innerHTML: '', style: {}, value: '',
-      href: 'https://drive.google.com/file/d/1K9Ebqrev4B4RC-X1HthmkwJVY--8kOQo/view?usp=sharing',
+      href: 'https://drive.google.com/file/d/1RbyU4F6J4xi5w-9aLo7-Kb_vwMymKs6N/view?usp=sharing',
       addEventListener() {}, classList: { toggle() {} }
     });
     return elements.get(key);
@@ -27,7 +27,7 @@ test('portfolio files reuse existing content without opening links', () => {
   const { run } = terminal();
   assert.match(run('ls'), /about\/.*projects\/.*contact\/.*resume\//s);
   assert.match(run('cat /about/bio.txt'), /Aerospace &amp; Defense/);
-  assert.match(run('cat /resume/resume.txt'), /1K9Ebqrev4B4RC-X1HthmkwJVY--8kOQo/);
+  assert.match(run('cat /resume/resume.txt'), /1RbyU4F6J4xi5w-9aLo7-Kb_vwMymKs6N/);
   assert.match(run('cat /projects/aimtracer.txt'), /OpenCV/);
   assert.match(run('tree'), /└── resume.txt/);
 });

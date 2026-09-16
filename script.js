@@ -160,7 +160,7 @@ ${getProjectEntries()
         case "echo":
             return "Usage: echo [your text]";
         case "resume":
-            window.open("https://drive.google.com/file/d/1K9Ebqrev4B4RC-X1HthmkwJVY--8kOQo/view?usp=sharing", "_blank");
+            window.open("https://drive.google.com/file/d/1RbyU4F6J4xi5w-9aLo7-Kb_vwMymKs6N/view?usp=sharing", "_blank");
             return "Opening resume in new tab...";
         case "dither":
             window.location.href = "/dithering/";
