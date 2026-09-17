@@ -50,3 +50,24 @@ Built with a retro aesthetic and modern interactivity, this website simulates a 
 ## Tip
 
 Try typing `projects` or `contact` in the terminal — or click the ☰ menu in the corner for quick access.
+
+## Resume keyword search
+
+The top-right keyword search link opens `/keyword-search/`. The page displays a
+rendered preview of `resume(1).pdf`, highlights literal, case-insensitive keyword
+or phrase matches, and assembles matching resume excerpts by role. Results run
+entirely in the browser; no AI API or server is required. The original PDF is
+available from the page’s **open PDF** link.
+
+After updating `resume(1).pdf`, rebuild the matching preview and word-position index:
+
+```sh
+python3 scripts/build-resume-search.py
+node --test tests/*.test.cjs tests/*.test.mjs
+```
+
+The build script requires Poppler’s `pdftotext` and `pdftoppm`. Commit the PDF,
+`keyword-search/resume.json`, and generated `keyword-search/page-*.png` together.
+Changing the Google Drive link alone does not update this local search copy.
+Preview through a local HTTP server (for example `python3 -m http.server`), since
+browsers restrict fetching the index from `file://` pages.
