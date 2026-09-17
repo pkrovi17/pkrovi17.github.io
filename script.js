@@ -190,13 +190,11 @@ commandInput.addEventListener("keydown", function (e) {
             const response = handleCommand(cmd);
             if (response) {
                 typeWriter(`\n${response}`, () => {}, 10);
-                //output.innerHTML += `\n${response}`;
-                //output.scrollTop = output.scrollHeight; // 🟢 scroll to bottom after output
             }
         }
         commandInput.value = "";
         updateCursorPosition();
-        //output.scrollTop = output.scrollHeight;
+        scrollTerminalToBottom();
     } else if (e.key === "ArrowUp") {
         if (historyIndex > 0) {
             historyIndex--;
@@ -212,12 +210,16 @@ commandInput.addEventListener("keydown", function (e) {
     }
 });
 
+function scrollTerminalToBottom() {
+    output.scrollTop = output.scrollHeight;
+    const terminal = document.querySelector(".terminal");
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
 function typeWriter(text, callback, speed = 10) {
     isOutputting = true;
     showWarningIcon(true);
     let i = 0;
-    let scrollCounter = 0;
-    const scrollInterval = 3; // Only scroll every 3 characters
     let buffer = ""; // Buffer for better performance
 
     function type() {
@@ -230,6 +232,7 @@ function typeWriter(text, callback, speed = 10) {
             isOutputting = false;
             showWarningIcon(false);
             callback && callback();
+            scrollTerminalToBottom();
             return;
         }
 
@@ -269,14 +272,7 @@ function typeWriter(text, callback, speed = 10) {
         if (buffer.length >= 5 || i >= text.length) {
             output.innerHTML += buffer;
             buffer = "";
-        }
-
-        // Only scroll every few characters to reduce DOM operations
-        scrollCounter++;
-        if (scrollCounter >= scrollInterval) {
-            output.scrollTop = output.scrollHeight;
-            document.querySelector(".terminal").scrollTop = document.querySelector(".terminal").scrollHeight;
-            scrollCounter = 0;
+            scrollTerminalToBottom();
         }
 
         setTimeout(type, speed);
